@@ -16,6 +16,11 @@ class MaxHeap {
 private:
     vector<Player> heap;
     string stat;
+    vector<string> allStats = {
+            "pts", "ast", "reb", "net_rating",  "usg_pct", "ts_pct"
+    };
+
+
 
     int parent(int i) const;
     int left(int i) const;
@@ -33,6 +38,8 @@ public:
     bool isEmpty() const;
     void printTopN(int n) const;
     void sortBy(const string& newStat);
+    void rankByAllStats(int topN, bool uniqueSeasons);
+
 
 };
 

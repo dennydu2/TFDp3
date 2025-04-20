@@ -14,6 +14,8 @@ public:
     int season;
     double pts, ast, reb;
     double netRating, orebPct, drebPct, usgPct, tsPct, astPct;
+    int statRanks[6]; // index for each stat's rank
+    int totalRank = 0; // sum of statRanks
 
     Player(string name, int season, double pts, double ast, double reb,
            double netRating, double orebPct, double drebPct,

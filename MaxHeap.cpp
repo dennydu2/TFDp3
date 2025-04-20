@@ -52,6 +52,9 @@ double MaxHeap::getStat(const Player& p) const {
     if (stat == "ast_pct") {
         return p.astPct;
     }
+    if (stat == "totalRank") {
+        return -p.totalRank;  // Lower rank = better
+    }
     return 0;
 }
 
@@ -127,3 +130,97 @@ void MaxHeap::sortBy(const string& newStat) {
         heapifyDown(i);
     }
 }
+
+void MaxHeap::rankByAllStats(int topN, bool uniqueSeasons) {
+    // Backup of original heap
+    vector<Player> original = heap;
+
+    // Initialize totalRank and statRanks
+    for (int i = 0; i < original.size(); i++) {
+        original[i].totalRank = 0;
+        for (int j = 0; j < 6; j++) {
+            original[i].statRanks[j] = 0;
+        }
+    }
+
+    for (int s = 0; s < allStats.size(); s++) {
+        string currentStat = allStats[s];
+
+        // Create a heap sorted by current stat
+        MaxHeap tempHeap(currentStat);
+        tempHeap.buildHeap(original);
+
+        // record ranks in a temporary list of indexes
+        vector<Player> rankedPlayers;
+
+        while (!tempHeap.isEmpty()) {
+            Player p = tempHeap.extractMax();
+            rankedPlayers.push_back(p);
+        }
+
+        // Assign ranks to players by searching in original vector
+        for (int rank = 0; rank < rankedPlayers.size(); rank++) {
+            for (int i = 0; i < original.size(); i++) {
+                Player& o = original[i];
+                Player& r = rankedPlayers[rank];
+
+                if (o.playerName == r.playerName &&
+                    o.season == r.season &&
+                    abs(o.pts - r.pts) < 0.001 &&
+                    abs(o.ast - r.ast) < 0.001 &&
+                    abs(o.reb - r.reb) < 0.001) {
+                    int weight = 2;
+                    //Weight points, netrating and efficiency as more
+                    if (currentStat == "pts" || currentStat == "ts_pct" || currentStat == "net_rating") {
+                        weight = 1;
+                    }
+
+                        original[i].statRanks[s] = rank + 1;
+                        original[i].totalRank += (rank + 1) * weight;
+                        break;
+                }
+            }
+        }
+    }
+
+    // Now rebuild heap based on totalRank
+    heap = original;
+    stat = "totalRank";
+    for (int i = heap.size() / 2 - 1; i >= 0; i--) {
+        heapifyDown(i);
+    }
+
+    // Output topN players
+    if(!uniqueSeasons) {
+        cout << "Top " << topN << " Players by Combined Stat Rankings:" << endl;
+        for (int i = 0; i < topN && i < heap.size(); i++) {
+            cout << i + 1 << ". " << heap[i].playerName
+                 << " (Total Rank Score: " << heap[i].totalRank << ")" << endl;
+            heap[i].print();
+        }
+    }else{
+        cout << "Top " << topN << " Players by Combined Stat Rankings:" << endl;
+
+        int printed = 0;
+        for (int i = 0; i < heap.size() && printed < topN; i++) {
+            bool alreadyPrinted = false;
+
+            // Check if this player's name has already been printed
+            for (int j = 0; j < i; j++) {
+                if (heap[i].playerName == heap[j].playerName) {
+                    alreadyPrinted = true;
+                    break;
+                }
+            }
+
+            if (!alreadyPrinted) {
+                cout << printed + 1 << ". " << heap[i].playerName
+                     << " (Total Rank Score: " << heap[i].totalRank << ")" << endl;
+                heap[i].print();
+                printed++;
+            }
+        }
+    }
+}
+
+
