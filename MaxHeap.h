@@ -32,6 +32,8 @@ public:
     void buildHeap(const vector<Player>& players);
     bool isEmpty() const;
     void printTopN(int n) const;
+    void sortBy(const string& newStat);
+
 };
 
 

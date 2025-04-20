@@ -52,17 +52,22 @@ int main() {
 
     file.close();
 
-    MaxHeap points("pts");
-    points.buildHeap(players);
+    MaxHeap heap("pts");
+    heap.buildHeap(players);
 
     cout << "Top 5 Players by Points:" << endl;
-    points.printTopN(5);
+    heap.printTopN(5);
+    cout << "\n" << endl;
 
-    MaxHeap assists("ast");
-    assists.buildHeap(players);
+    heap.sortBy("ast");
 
     cout << "Top 5 Players by Assists:" << endl;
-    assists.printTopN(5);
+    heap.printTopN(5);
+    cout << "\n" << endl;
+
+    heap.sortBy("ts_pct");
+    cout << "Top 5 Players by TS Percentage:" << endl;
+    heap.printTopN(5);
 
     return 0;
 }

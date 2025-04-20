@@ -120,3 +120,10 @@ void MaxHeap::printTopN(int n) const {
         heap[i].print();
     }
 }
+
+void MaxHeap::sortBy(const string& newStat) {
+    stat = newStat;
+    for (int i = heap.size() / 2 - 1; i >= 0; i--) {
+        heapifyDown(i);
+    }
+}
