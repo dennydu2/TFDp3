@@ -94,9 +94,6 @@ void MaxHeap::insert(const Player& player) {
 }
 
 Player MaxHeap::extractMax() {
-    if (heap.empty()) {
-        throw runtime_error("Heap is empty!");
-    }
 
     Player max = heap[0];
     heap[0] = heap.back();
@@ -117,10 +114,14 @@ bool MaxHeap::isEmpty() const {
 }
 
 void MaxHeap::printTopN(int n) const {
-    int count = min(n, (int)heap.size());
-    for (int i = 0; i < count; i++) {
+    vector<Player> temp = heap;
+    MaxHeap tempHeap(stat);
+    tempHeap.buildHeap(temp);
+
+    for (int i = 0; i < n && !tempHeap.isEmpty(); i++) {
+        Player p = tempHeap.extractMax();
         cout << i + 1 << ". ";
-        heap[i].print();
+        p.print();
     }
 }
 
@@ -163,7 +164,7 @@ void MaxHeap::rankByAllStats(int topN, bool uniqueSeasons) {
             for (int i = 0; i < original.size(); i++) {
                 Player& o = original[i];
                 Player& r = rankedPlayers[rank];
-
+                //Had to use abs value because just checking equality was off
                 if (o.playerName == r.playerName &&
                     o.season == r.season &&
                     abs(o.pts - r.pts) < 0.001 &&

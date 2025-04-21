@@ -21,3 +21,7 @@ void Player::print() const {
          << ", DREB%: " << drebPct << ", USG%: " << usgPct
          << ", TS%: " << tsPct << ", AST%: " << astPct << endl;
 }
+
+Player Player::getSelf() {
+    return *this;
+}

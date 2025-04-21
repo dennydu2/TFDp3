@@ -22,6 +22,8 @@ public:
            double usgPct, double tsPct, double astPct);
 
     void print() const;
+    Player getSelf();
+
 };
 
 
