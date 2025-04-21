@@ -1,5 +1,5 @@
 //
-// Created by seany on 4/20/2025.
+// Created by seany on 4/15/2025.
 //
 
 #include "PlayerMap.h"
@@ -237,6 +237,9 @@ void PlayerMap::findBestSeasonByStat(const string& playerName, const string& sta
     } else {
         cout << "Could not determine best season for " << playerName << " in stat " << statName << "." << endl;
     }
+}
+void PlayerMap::insertSeason(const Player& p) {
+    data[p.playerName].push_back(p);
 }
 
 

@@ -1,5 +1,5 @@
 //
-// Created by seany on 4/20/2025.
+// Created by seany on 4/15/2025.
 //
 
 #ifndef PROJECT3_PLAYERMAP_H
@@ -28,6 +28,7 @@ public:
     void compare(const string player1, const string player2);
     void findBestSeasonByStat(const string& playerName, const string& statName);
 
+    void insertSeason(const Player &p);
 };
 
 #endif

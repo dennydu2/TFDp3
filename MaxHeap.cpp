@@ -1,5 +1,5 @@
 //
-// Created by seany on 4/20/2025.
+// Created by seany on 4/6/2025.
 //
 
 #include "MaxHeap.h"
@@ -184,7 +184,7 @@ void MaxHeap::rankByAllStats(int topN, bool uniqueSeasons) {
         }
     }
 
-    // Now rebuild heap based on totalRank
+    // rebuild heap based on totalRank
     heap = original;
     stat = "totalRank";
     for (int i = heap.size() / 2 - 1; i >= 0; i--) {
@@ -193,15 +193,12 @@ void MaxHeap::rankByAllStats(int topN, bool uniqueSeasons) {
 
     // Output topN players
     if(!uniqueSeasons) {
-        cout << "Top " << topN << " Players by Combined Stat Rankings:" << endl;
         for (int i = 0; i < topN && i < heap.size(); i++) {
             cout << i + 1 << ". " << heap[i].playerName
-                 << " (Total Rank Score: " << heap[i].totalRank << ")" << endl;
+                 << endl;
             heap[i].print();
         }
     }else{
-        cout << "Top " << topN << " Players by Combined Stat Rankings:" << endl;
-
         int printed = 0;
         for (int i = 0; i < heap.size() && printed < topN; i++) {
             bool alreadyPrinted = false;
@@ -216,7 +213,7 @@ void MaxHeap::rankByAllStats(int topN, bool uniqueSeasons) {
 
             if (!alreadyPrinted) {
                 cout << printed + 1 << ". " << heap[i].playerName
-                     << " (Total Rank Score: " << heap[i].totalRank << ")" << endl;
+                      << endl;
                 heap[i].print();
                 printed++;
             }

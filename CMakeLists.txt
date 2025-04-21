@@ -8,4 +8,7 @@ add_executable(project3 main.cpp
         Player.h
         MaxHeap.cpp
         MaxHeap.h
+        PlayerMap.cpp
+        PlayerMap.h
+        PlayerMap.h
 )
