@@ -143,7 +143,6 @@ int main() {
         else if (choice == 5) {
             string name;
             cout << "Enter player name: "<< endl;
-            cin.ignore();
             getline(cin, name);
 
             Player* avg = playerData.getCareerAverages(name);
