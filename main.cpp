@@ -157,7 +157,6 @@ int main() {
         else if (choice == 6) {
             string p1, p2;
             cout << "Enter first player name: "<< endl;
-            cin.ignore();
             getline(cin, p1);
             cout << "Enter second player name: "<< endl;
             getline(cin, p2);
